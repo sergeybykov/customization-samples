@@ -48,6 +48,14 @@ generate_cert cluster-accounting $CLUSTER_DIR/accounting $CLUSTER_DIR/ca/server-
 echo Generate a private key and a server certificate for development namespace
 generate_cert cluster-development $CLUSTER_DIR/development $CLUSTER_DIR/ca/server-intermediate-ca req_ext
 
+echo Generate a private key and a certificate for workers intermediate CA
+generate_cert server-intermediate-worker-ca $CLUSTER_DIR/ca $CLUSTER_DIR/ca/server-root-ca v3_ca no_chain
+
+echo Generate a private key and a server certificate for internal workers
+generate_cert cluster-worker $CLUSTER_DIR/internode $CLUSTER_DIR/ca/server-intermediate-worker-ca req_ext
+
+echo Generate a private key and a client certificate for internal workers
+generate_cert cluster-worker-client $CLUSTER_DIR/internode $CLUSTER_DIR/ca/server-intermediate-worker-ca req_ext
 
 echo Generate a private key and a certificate for client root CA
 generate_root_ca_cert client-root-ca $CLIENT_DIR/ca
